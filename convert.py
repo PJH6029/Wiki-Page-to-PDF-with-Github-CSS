@@ -44,7 +44,6 @@ def get_markdown_url(wiki_page_url):
     markdown_url = f"https://raw.githubusercontent.com/wiki{repo_path}/{encoded_page_name}.md"
     return markdown_url, decoded_page_name
 
-
 def fetch_markdown_content(markdown_url):
     # Get the markdown content
     response = requests.get(markdown_url)
@@ -97,27 +96,32 @@ def save_html(html_content, filename):
 def convert_to_pdf(html_filename, pdf_filename):
     pdfkit.from_file(html_filename, pdf_filename)
 
-def main(wiki_page_url):
-    # Get markdown URL and fetch the markdown content
-    markdown_url, page_name = get_markdown_url(wiki_page_url)
-    markdown_content = fetch_markdown_content(markdown_url)
+def main(wiki_page_urls):
+    for wiki_page_url in wiki_page_urls:
+        try:
+            # Get markdown URL and fetch the markdown content
+            markdown_url, page_name = get_markdown_url(wiki_page_url)
+            markdown_content = fetch_markdown_content(markdown_url)
 
-    # Convert markdown content to GitHub-flavored HTML
-    html_content = convert_markdown_to_html(markdown_content)
+            # Convert markdown content to GitHub-flavored HTML
+            html_content = convert_markdown_to_html(markdown_content)
 
-    # Save HTML content
-    html_filename = f"{page_name}.html"
-    save_html(html_content, html_filename)
-    print(f"Converted {wiki_page_url} to {html_filename}")
-    
-    # pdf_filename = f"{page_name}.pdf"
-    # convert_to_pdf(html_filename, pdf_filename)
-    # print(f"Converted {wiki_page_url} to {pdf_filename}")
+            # Save HTML content
+            html_filename = f"{page_name}.html"
+            save_html(html_content, html_filename)
+            print(f"Converted {wiki_page_url} to {html_filename}")
+
+            # pdf_filename = f"{page_name}.pdf"
+            # convert_to_pdf(html_filename, pdf_filename)
+            # print(f"Converted {wiki_page_url} to {pdf_filename}")
+        
+        except Exception as e:
+            print(f"Failed to process {wiki_page_url}: {e}")
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) != 2:
-        print("Usage: python convert.py <wiki-page-url>")
+    if len(sys.argv) < 2:
+        print("Usage: python convert.py <wiki-page-url-1> <wiki-page-url-2> ...")
     else:
-        wiki_page_url = sys.argv[1]
-        main(wiki_page_url)
+        wiki_page_urls = sys.argv[1:]
+        main(wiki_page_urls)
