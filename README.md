@@ -3,7 +3,12 @@
 ## Usage
 1. `pip install -r requirements.txt`
 2. make `.env`, insert `GITHUB_ACCESS_TOKEN`
-3. `python convert.py <wiki-page-url>`
+3. `python convert.py <wiki-page-url-1> <wiki-page-url-2> ...`
+
+### Save PDF
+The default behavior of this code is saving into HTML. If you also want to convert it as PDF, you need to install `wkhtmltopdf` first and add `--pdf` option
+- Install `wkhtmltopdf` (Windows: [Install Page](https://wkhtmltopdf.org/downloads.html), Linux: `sudo apt-get install wkhtmltopdf`, MacOS: `brew install wkhtmltopdf`)
+- `python convert.py --pdf <wiki-page-url-1> <wiki-page-url-2> ...`
 
 ## Description
 

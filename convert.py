@@ -65,6 +65,7 @@ def save_html(html_content, filename):
     html_template = f"""
     <html>
     <head>
+    <meta charset="UTF-8">
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css"
